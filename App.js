@@ -14,7 +14,6 @@ export default class App extends Component {
         return (
             <NavigationContainer>
                 <Stack.Navigator initialRouteName={"列表"}>
-                    
                     <Stack.Screen name="详情" component={Detail}/>
                     <Stack.Screen name="列表" component={List}/>
                 </Stack.Navigator>
