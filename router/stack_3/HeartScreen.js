@@ -5,10 +5,13 @@ import { createStackNavigator } from '@react-navigation/stack'
 const Stack = createStackNavigator()
 
 export default class HeartScreen extends Component {
+    constructor(props){
+        super(props)
+    }
     render() {
         return (
-            <Stack.Navigator initialRouteName="List">
-                <Stack.Screen name="List" component={List} />
+            <Stack.Navigator initialRouteName="List" >
+                <Stack.Screen name="List" component={List}/>
                 <Stack.Screen name="Detail" component={Detail} />
             </Stack.Navigator>
         )

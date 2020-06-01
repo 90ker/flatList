@@ -14,11 +14,11 @@ export default class MainScreen extends Component {
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
-                        if (route.name === 'Home') {
+                        if (route.name === 'HomeScreen') {
                             iconName = 'home'
-                        } else if (route.name === 'Heart') {
+                        } else if (route.name === 'HeartScreen') {
                             iconName = focused ? 'heart' : 'hearto'
-                        } else if (route.name === 'Star') {
+                        } else if (route.name === 'StarScreen') {
                             iconName = focused ? 'star' : 'staro'
                         }
                         return <AntDesign name={iconName} size={size} color={color} />;
@@ -29,9 +29,9 @@ export default class MainScreen extends Component {
                     inactiveTintColor: 'gray',
                 }}
             >
-                <Tab.Screen name="Home" component={HomeScreen} />
-                <Tab.Screen name="Heart" component={HeartScreen} />
-                <Tab.Screen name="Star" component={StarScreen} />
+                <Tab.Screen name="HomeScreen" component={HomeScreen} />
+                <Tab.Screen name="HeartScreen" component={HeartScreen} />
+                <Tab.Screen name="StarScreen" component={StarScreen} />
             </Tab.Navigator>
         )
     }

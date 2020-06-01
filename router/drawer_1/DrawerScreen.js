@@ -12,7 +12,8 @@ export default class DrawerScreen extends Component {
         super()
         this.state = {
             flag: true,
-            skipTime: 3
+            skipTime: 3,
+            src:{uri:`http://101.201.121.40:8080/imgs/cover.jpg?`+ Math.floor(Math.random()*10)}
         }
     }
     _autoCloseModal = () => {
@@ -31,6 +32,7 @@ export default class DrawerScreen extends Component {
         this.setState({ flag: false })
     }
     render() {
+        console.log(this.state.src.uri)
         return (
             <NavigationContainer>
                 <Modal
@@ -41,7 +43,7 @@ export default class DrawerScreen extends Component {
                     onRequestClose={() => {
                         alert("Modal has been closed.");
                     }}>
-                    <Image style={modalStyles.img} source={{ uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1590732538752&di=e67d5561e1c1450bed44dd8c63d73ab9&imgtype=0&src=http%3A%2F%2Fhbimg.huabanimg.com%2Fc3536a0e320de5e06887705fd72ed968482d78b4c13c-g30WRc_fw236' }}></Image>
+                    <Image style={modalStyles.img} source={ this.state.src}></Image>
                     <TouchableOpacity style={modalStyles.skip} onPress={() => this._closeModal()}>
                         <View style={modalStyles.skipView}>
                             <Text style={{ fontSize: 20 }}>跳过</Text>

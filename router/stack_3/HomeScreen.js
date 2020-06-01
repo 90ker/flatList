@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
-import Album from "../leaves_4/Album";
+import Singers from "../leaves_4/Singers";
 const Stack = createStackNavigator()
 
 
@@ -9,9 +8,9 @@ const Stack = createStackNavigator()
 export default class HomeScreen extends Component {
     render() {
         return (
-            <Stack.Navigator initialRouteName="Album">
-            <Stack.Screen name="Album" component={Album} />
-        </Stack.Navigator>
+            <Stack.Navigator initialRouteName="Singers">
+                <Stack.Screen name="Singers" component={Singers} />
+            </Stack.Navigator>
         )
     }
 }

@@ -2,75 +2,62 @@ import React, { Component } from 'react'
 import { FlatList, Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native'
 
 
-export default class App extends Component {
+export default class List extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
       lists: [],
-      loadLists: [],
-      num:4
-
+      num:4,
+      singer:''
+      
     }
     this.navigate = this.props.navigation.navigate
   }
-
-  componentDidMount() {
-    fetch("http://101.201.121.40:8080/singers/singers.json")
-      .then(res => res.json())
-      .then(lists => this.setState({ lists:lists.mj }))
-      .then(() => this._load())
-
-  }
-
-  _goDetail = (index) => {
-    let lists = this.state.lists
-    this.navigate('Detail', { index ,lists})
-  }
-  _load = () => {
-    let num = this.state.num
-    this.setState({
-      loadLists: this.state.lists.slice(0, num),
-      num:num+4,
-    })
-  }
-  _onPressButton = (item) => {
-    for (let a in this.state.loadLists) {
-      if (this.state.loadLists[a].id == item.id) {
-        this.state.loadLists.splice(a, 1)
-        this.setState({
-          loadLists: this.state.loadLists
-        })
-      }
+  componentWillMount(){
+    if(this.props.route.params){
+      let {songs,singer} = this.props.route.params
+      this.setState({lists:songs,singer})
+      console.log('a')
     }
   }
+  componentWillReceiveProps=(nextprops)=>{
+      let {songs,singer} = nextprops.route.params
+      this.setState({lists:songs,singer})
+  }
+  _goDetail = (index) => {
+    let lists = this.state.lists
+    let singer = this.state.singer
+    this.navigate('Detail', { index ,lists ,singer})
+  }
+
+  _loadErrorImg=(index)=>{
+    let lists = this.state.lists
+    lists[index].img='http://101.201.121.40:8080/imgs/none.jpg'
+    this.setState({
+      lists
+    })
+  }
   render() {
+    if (this.state.lists==[]) return (<View><Text>请选择歌手</Text></View>)
     return (
       <View style={{ width: "100%" }}>
-       
         <FlatList
           style={{ width: "100%" }}
-          data={this.state.loadLists}
-          onEndReached={() => this._load()}
+          data={this.state.lists}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) =>
             <TouchableOpacity onPress={() => this._goDetail(index)}>
               <View style={styles.view} >
-                <Text style={[styles.id, item.id < 4 ? { color: "red" } : {}]}>{item.id}</Text>
                 <View style={styles.insideView}>
-                  <Image source={{ uri: item.img }} style={styles.img} />
+                  <Image onError={()=>this._loadErrorImg(index)} source={{uri: item.img}} style={styles.img} />
                 </View>
                 <View style={styles.rightView}>
                   <Text style={styles.name}>{item.name}</Text>
                   <View style={styles.singerView}>
-                    {item.singer.map((singer1, index1) =>
-                      <Text style={styles.singer} key={index1}>{singer1}</Text>
-                    )}
+                      <Text style={styles.singer}>{this.state.singer}</Text>
                   </View>
                 </View>
-                <TouchableOpacity onPress={() => this._onPressButton(item)}>
-                  <Text style={styles.delete}>删除</Text>
-                </TouchableOpacity>
               </View>
             </TouchableOpacity>
           }

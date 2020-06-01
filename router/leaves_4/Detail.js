@@ -71,21 +71,26 @@ export default class Detail extends Component {
             nowTime:'0:00'
         })
     }
+    _loadErrorImg=(index)=>{
+        let lists = this.state.lists
+        lists[index].img='http://101.201.121.40:8080/imgs/none.jpg'
+        this.setState({
+          lists
+        })
+      }
     render() {
-        const { params: { index, lists } } = this.props.route
+        const { params: { singer,index, lists } } = this.props.route
         return (
             <View>
                 <ViewPager ref={ref=>this.page=ref} style={{ width: '100%', height: 400 }}  onPageSelected={({nativeEvent})=>this._changeSong(nativeEvent.position)} initialPage={index}>
                     {
                         lists.map((item, i) => {
                             return <View style={styles.view} key={i}>
-                                <Image source={{ uri: item.img }} style={styles.img} />
+                                <Image onError={()=>this._loadErrorImg(i)} source={{ uri: item.img }} style={styles.img} />
                                 <View style={styles.content}>
                                     <Text style={styles.name}>{item.name}</Text>
                                     <View style={styles.singerView}>
-                                        {item.singer.map((singer1, index1) =>
-                                            <Text style={styles.singer} key={index1}>{singer1}</Text>
-                                        )}
+                                            <Text style={styles.singer}>{singer}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -104,7 +109,7 @@ export default class Detail extends Component {
                     onProgress={this._setSongProgress}
                     onLoad={this._setDuration}
                     onError={this._error}
-                    source={{uri:this.songsUri+this.state.srcList[this.state.nowSong]+'.mp3'}} />
+                    source={{uri:lists[this.state.nowSong].song}} />
                 <View style={styles.sliderBar}>
                     <Slider
                         onValueChange={(value)=>this._changeCurrent(value)}
